@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Snake Follows Mouse</title>
+  <style>
+
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .dot {
+      width: 50px;
+      height: 10px;
+      background: linear-gradient(90deg, #ff006a, #00ffff);
+      border-radius: 50%;
+      position: absolute;
+      pointer-events: none;
+    }
+
+  </style>
+</head>
+<body>
+  <script>
+
+    const dots = [];
+    const totalDots = 100;
+
+    // Create dots and add to body
+    for (let i = 0; i < totalDots; i++) {
+      const d = document.createElement("div");
+      d.classList.add("dot");
+      document.body.appendChild(d);
+      dots.push({ el: d, x: 0, y: 0 });
+    }
+
+    let mouse = { x: window.innerWidth 
+      / 2, y: window.innerHeight / 2 };
+
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+
+    function animate() {
+      let x = mouse.x;
+      let y = mouse.y;
+
+      dots.forEach((dot, index) => {
+        let next = dots[index + 1] ||
+        dots[dots.length - 1];
+        dot.x += (x - dot.x) * 0.2;
+        dot.y += (y - dot.y) * 0.2;
+        dot.el.style.transform = 
+        `translate(${dot.x}px, ${dot.y}px)`;
+
+        x = dot.x;
+        y = dot.y;
+      });
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+
+  </script>
+</body>
+</html>
